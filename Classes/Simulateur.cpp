@@ -63,3 +63,55 @@ void Simulateur::reset() {
 	else
 		*etats[0] = *depart;
 }
+
+bool Simulateur::Iterator::isDone() const {
+	return sim == nullptr || (i == -1 && sim->rang < sim->nbMaxEtats) || i == sim->rang - sim->nbMaxEtats;
+}
+
+void Simulateur::Iterator::next() {
+	if (isDone())
+		throw SimulateurException("Error, next on an iterator");
+	--i;
+	if (i == -1 && sim->rang >= sim->nbMaxEtats)
+		i = sim->nbMaxEtats - 1;
+}
+
+Etat& Simulateur::Iterator::current() const {
+	if (isDone())
+		throw SimulateurException("Current on iterator");
+	return *sim->etats[i%sim->nbMaxEtats];
+}
+
+bool Simulateur::ConstIterator::isDone() const {
+	return sim == nullptr || (i == -1 && sim->rang < sim->nbMaxEtats) || i == sim->rang - sim->nbMaxEtats;
+}
+
+void Simulateur::ConstIterator::next()  {
+	if (isDone())
+		throw SimulateurException("Error, next on an iterator");
+	--i;
+	if (i == -1 && sim->rang >= sim->nbMaxEtats)
+		i = sim->nbMaxEtats - 1;
+}
+
+Etat& Simulateur::ConstIterator::current() const {
+	if (isDone())
+		throw SimulateurException("Current on iterator");
+	return *sim->etats[i%sim->nbMaxEtats];
+}
+
+bool Simulateur::Iterator::operator!=(Iterator it) {
+	return sim != it.sim || i != it.i;
+}
+
+Simulateur::Iterator Simulateur::end() {
+	if (rang < nbMaxEtats)
+		return Iterator(this, -1);
+	return Iterator(this, rang - nbMaxEtats);
+}
+
+Simulateur::ConstIterator Simulateur::end() const {
+	if (rang < nbMaxEtats)
+		return ConstIterator(this, -1);
+	return ConstIterator(this, rang - nbMaxEtats);
+}
