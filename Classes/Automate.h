@@ -7,14 +7,15 @@
 #include "Exceptions/AutomateException.h"
 
 class Automate {
+	friend class AutomateManager;
 	short unsigned int numero = 0;
 	std::string numeroBit;
 
-public:
 	//Constructeurs
 	Automate(short unsigned int);
 	Automate(const std::string&);
-	
+
+public:
 	//Accesseurs
 	unsigned int getNumero() const { return numero; }
 	std::string getNumeroBit() const { return numeroBit; }

@@ -3,13 +3,16 @@
 #include "Classes/Etat.h"
 #include "Classes/Automate.h"
 #include "Classes/Simulateur.h"
+#include "Classes/AutomateManager.h"
 
 using namespace std;
 
 //Bonjour
 int main() {
 
-	Automate a(113);
+	AutomateManager& am = AutomateManager::getAutomateManager();
+
+	Automate a = am.getAutomate(52);
 
 	cout << "automate " << a << endl;
 

@@ -16,6 +16,10 @@ public:
 	Simulateur(const Automate&, const Etat&, unsigned int = 2);
 	~Simulateur();
 
+	Simulateur(const Simulateur&) = delete;
+	Simulateur operator=(const Simulateur&) = delete;
+
+
 	void run(unsigned int);
 	void setEtatDepart(const Etat&);
 	void next();
